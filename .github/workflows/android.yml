@@ -37,17 +37,45 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
-      - name: Assemble debug APK
+      # Signing key from secrets (see README). Tags must be signed so updates install over
+      # older versions; plain pushes fall back to a debug build until the secrets exist.
+      - name: Decode signing key
+        id: key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/salmers-release.jks"
+            echo "path=$RUNNER_TEMP/salmers-release.jks" >> "$GITHUB_OUTPUT"
+          elif [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            echo "::error::ANDROID_KEYSTORE_BASE64 is not set; refusing to publish an unsigned release."
+            exit 1
+          else
+            echo "::warning::No signing key configured; building a debug APK."
+          fi
+
+      - name: Assemble APK
         working-directory: android
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ steps.key.outputs.path }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          VERSION_CODE: ${{ github.run_number }}
+          VERSION_NAME: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || format('0.0.0-{0}', github.sha) }}
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon
+          if [ -n "$ANDROID_KEYSTORE_PATH" ]; then
+            ./gradlew assembleRelease --no-daemon
+          else
+            ./gradlew assembleDebug --no-daemon
+          fi
 
       - name: Rename APK
         id: apk
         run: |
           name="salmers-${GITHUB_REF_NAME//\//-}.apk"
-          cp android/app/build/outputs/apk/debug/app-debug.apk "$name"
+          src=android/app/build/outputs/apk/release/app-release.apk
+          [ -f "$src" ] || src=android/app/build/outputs/apk/debug/app-debug.apk
+          cp "$src" "$name"
           echo "path=$name" >> "$GITHUB_OUTPUT"
 
       - uses: actions/upload-artifact@v7

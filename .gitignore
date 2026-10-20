@@ -27,3 +27,7 @@ vite.config.ts.timestamp-*
 /android/app/src/main/assets/capacitor.config.json
 /android/app/src/main/assets/capacitor.plugins.json
 /android/capacitor-cordova-android-plugins
+
+# Android signing keys (kept outside the repo; CI gets them from secrets)
+*.jks
+*.keystore

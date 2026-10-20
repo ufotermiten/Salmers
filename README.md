@@ -42,3 +42,16 @@ npm run build         # statisk build till build/
 
 - **iOS och webb:** PWA på GitHub Pages. Öppna sidan i Safari → Dela → _Lägg till på hemskärmen_.
 - **Android:** APK byggs av GitHub Actions med Capacitor och laddas ner från _Releases_ (sideload, ingen Play Store).
+
+### Signering av APK
+
+Release-APK:er signeras med en fast nyckel så att nya versioner installeras som uppdateringar. Nyckeln ligger **inte** i repot utan som GitHub Actions-secrets:
+
+| Secret                      | Innehåll                         |
+| --------------------------- | -------------------------------- |
+| `ANDROID_KEYSTORE_BASE64`   | keystore-filen (PKCS12), base64  |
+| `ANDROID_KEYSTORE_PASSWORD` | lösenord för keystore och nyckel |
+
+Alias är `salmers`. Utan secrets bygger pushar till `main` en debug-APK, och `v*`-taggar misslyckas hellre än att publicera en osignerad release. `versionCode` sätts till workflowens körningsnummer och `versionName` till taggen.
+
+Om nyckeln försvinner kan befintliga installationer inte uppdateras längre, så säkerhetskopiera den.

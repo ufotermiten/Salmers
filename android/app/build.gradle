@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+// Release signing comes from the environment (GitHub Actions secrets); see README.
+def keystorePath = System.getenv('ANDROID_KEYSTORE_PATH')
+def hasReleaseKey = keystorePath && file(keystorePath).exists()
+
 android {
     namespace = "se.salmers.app"
     compileSdk = rootProject.ext.compileSdkVersion
@@ -7,8 +11,9 @@ android {
         applicationId "se.salmers.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        // CI sets these so every build installs as an update of the previous one.
+        versionCode((System.getenv('VERSION_CODE') ?: '1') as Integer)
+        versionName System.getenv('VERSION_NAME') ?: '0.0.0-dev'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -16,8 +21,21 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+        if (hasReleaseKey) {
+            release {
+                storeFile file(keystorePath)
+                storePassword System.getenv('ANDROID_KEYSTORE_PASSWORD')
+                keyAlias System.getenv('ANDROID_KEY_ALIAS') ?: 'salmers'
+                keyPassword System.getenv('ANDROID_KEY_PASSWORD') ?: System.getenv('ANDROID_KEYSTORE_PASSWORD')
+            }
+        }
+    }
     buildTypes {
         release {
+            if (hasReleaseKey) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
