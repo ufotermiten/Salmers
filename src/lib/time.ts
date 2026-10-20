@@ -22,8 +22,9 @@ export function parseHHMM(s: string): number {
 }
 
 export function formatMinute(minute: number): string {
-	const h = Math.floor(minute / 60);
-	const m = minute % 60;
+	const rounded = Math.round(minute);
+	const h = Math.floor(rounded / 60);
+	const m = rounded % 60;
 	return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
 }
 

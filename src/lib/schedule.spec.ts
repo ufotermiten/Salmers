@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseReservations, statusAt } from './schedule';
-import { stockholmNow } from './time';
+import { formatMinute, stockholmNow } from './time';
 
 const headers = ['Kurskod', 'Rubrik', 'Kommentar', 'Aktivitet', 'Lokalnamn'];
 const res = (
@@ -94,5 +94,11 @@ describe('stockholmNow', () => {
 			date: '2027-01-01',
 			minute: 30
 		});
+	});
+});
+
+describe('formatMinute', () => {
+	it('rounds fractional minutes', () => {
+		expect(formatMinute(14 * 60 + 34.61)).toBe('14:35');
 	});
 });

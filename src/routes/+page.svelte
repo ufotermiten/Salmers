@@ -7,6 +7,7 @@
 	import { favorites } from '#lib/favorites.svelte.ts';
 	import { formatDateLabel, formatMinute, parseHHMM, stockholmNow } from '#lib/time.ts';
 	import RoomCard from '#lib/components/RoomCard.svelte';
+	import RoutePanel from '#lib/components/RoutePanel.svelte';
 
 	const rooms = catalog.rooms as Room[];
 	const TYPES: RoomType[] = ['Lektionssal', 'Hörsal', 'Datorsal', 'Studieplats'];
@@ -23,6 +24,7 @@
 	let activeTypes = $state<RoomType[]>([]);
 	let onlyFavorites = $state(false);
 	let showBusy = $state(false);
+	let view = $state<'list' | 'route'>('list');
 
 	let day = $state<DayData | null>(null);
 	let loading = $state(false);
@@ -132,6 +134,20 @@
 <header>
 	<div class="top">
 		<h1>Salmers</h1>
+		<div class="segmented view" role="tablist" aria-label="Vy">
+			<button
+				role="tab"
+				aria-selected={view === 'list'}
+				class:active={view === 'list'}
+				onclick={() => (view = 'list')}>Lista</button
+			>
+			<button
+				role="tab"
+				aria-selected={view === 'route'}
+				class:active={view === 'route'}
+				onclick={() => (view = 'route')}>Rutt</button
+			>
+		</div>
 		<button class="refresh" onclick={() => refresh(true)} disabled={loading} aria-label="Uppdatera">
 			<svg class:spin={loading} viewBox="0 0 24 24" aria-hidden="true">
 				<path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v4h-4" />
@@ -189,51 +205,55 @@
 		</p>
 	{/if}
 
-	{#if favoriteEntries.length}
-		<section>
-			<h2>Favoriter</h2>
-			{#each favoriteEntries as e (e.room.id)}
-				<RoomCard {...e} {minute} />
-			{/each}
-		</section>
-	{/if}
-
-	{#if free.length}
-		<section>
-			<h2>Lediga</h2>
-			{#each free as e (e.room.id)}
-				<RoomCard {...e} {minute} />
-			{/each}
-		</section>
-	{:else if day && !loading && busy.length}
-		<p class="empty">Inga lediga salar matchar just nu.</p>
-	{/if}
-
-	{#if busy.length}
-		<section>
-			<button class="toggle" onclick={() => (showBusy = !showBusy)} aria-expanded={showBusy}>
-				<h2>Upptagna ({busy.length})</h2>
-				<span>{showBusy ? 'Dölj' : 'Visa'}</span>
-			</button>
-			{#if showBusy}
-				{#each busy as e (e.room.id)}
+	{#if view === 'route'}
+		<RoutePanel candidates={entries} allRooms={rooms} {minute} ready={day !== null} />
+	{:else}
+		{#if favoriteEntries.length}
+			<section>
+				<h2>Favoriter</h2>
+				{#each favoriteEntries as e (e.room.id)}
 					<RoomCard {...e} {minute} />
 				{/each}
-			{/if}
-		</section>
-	{/if}
+			</section>
+		{/if}
 
-	{#if dropIn.length}
-		<section>
-			<h2>Studieplatser (drop-in)</h2>
-			{#each dropIn as e (e.room.id)}
-				<RoomCard {...e} {minute} />
-			{/each}
-		</section>
-	{/if}
+		{#if free.length}
+			<section>
+				<h2>Lediga</h2>
+				{#each free as e (e.room.id)}
+					<RoomCard {...e} {minute} />
+				{/each}
+			</section>
+		{:else if day && !loading && busy.length}
+			<p class="empty">Inga lediga salar matchar just nu.</p>
+		{/if}
 
-	{#if !entries.length}
-		<p class="empty">Inga salar matchar din sökning.</p>
+		{#if busy.length}
+			<section>
+				<button class="toggle" onclick={() => (showBusy = !showBusy)} aria-expanded={showBusy}>
+					<h2>Upptagna ({busy.length})</h2>
+					<span>{showBusy ? 'Dölj' : 'Visa'}</span>
+				</button>
+				{#if showBusy}
+					{#each busy as e (e.room.id)}
+						<RoomCard {...e} {minute} />
+					{/each}
+				{/if}
+			</section>
+		{/if}
+
+		{#if dropIn.length}
+			<section>
+				<h2>Studieplatser (drop-in)</h2>
+				{#each dropIn as e (e.room.id)}
+					<RoomCard {...e} {minute} />
+				{/each}
+			</section>
+		{/if}
+
+		{#if !entries.length}
+			<p class="empty">Inga salar matchar din sökning.</p>
+		{/if}
 	{/if}
 
 	<footer>Data från TimeEdit och Chalmers karta. Bokningar kan ändras – inofficiell app.</footer>
@@ -254,6 +274,10 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		gap: 8px;
+	}
+	.view {
+		margin-left: auto;
 	}
 	h1 {
 		margin: 0;
