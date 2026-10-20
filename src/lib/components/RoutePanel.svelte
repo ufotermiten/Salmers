@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Booking, Room } from '#lib/types.ts';
 	import { planRoute, type RoutePlan } from '#lib/route.ts';
-	import { CAMPUS_CENTER, distanceMeters, getPosition, type Position } from '#lib/location.ts';
+	import { CAMPUS_CENTER, distanceMeters, getPosition, resolveStart } from '#lib/location.ts';
 	import { formatMinute } from '#lib/time.ts';
 	import { favorites } from '#lib/roomLists.svelte.ts';
 	import { routeSettings as rs } from '#lib/routeSettings.svelte.ts';
@@ -18,6 +18,8 @@
 
 	const BUDGETS = [5, 10, 15, 20];
 	const FAR_FROM_CAMPUS_M = 2500;
+	/** Beyond this a fix can't even tell buildings apart (typically "approximate location"). */
+	const TOO_VAGUE_M = 300;
 
 	let locating = $state(false);
 	let locationError = $state<string | null>(null);
@@ -55,13 +57,19 @@
 		locating = true;
 		locationError = null;
 		try {
-			const pos: Position = await getPosition();
+			const pos = await getPosition();
+			if (pos.approximate || pos.accuracy > TOO_VAGUE_M) {
+				locationError = `Bara ungefärlig plats (±${Math.round(pos.accuracy)} m). Ge appen tillgång till exakt plats i telefonens inställningar, eller välj hus i listan.`;
+				return;
+			}
 			if (distanceMeters(pos, CAMPUS_CENTER) > FAR_FROM_CAMPUS_M) {
 				locationError = 'Du verkar inte vara på Johanneberg. Välj en startpunkt i listan.';
 				return;
 			}
-			rs.start = { lat: pos.lat, lng: pos.lng, label: 'Din plats' };
-			rs.pickedBuilding = '';
+			const s = resolveStart(pos, buildings);
+			rs.start = { lat: s.lat, lng: s.lng, label: s.building ?? 'Din plats' };
+			rs.pickedBuilding = s.building ?? '';
+			rs.gpsAccuracy = Math.round(pos.accuracy);
 		} catch (e) {
 			locationError = (e as Error).message;
 		} finally {
@@ -71,7 +79,11 @@
 
 	function pickBuilding() {
 		const hit = buildings.find(([name]) => name === rs.pickedBuilding);
-		if (hit) rs.start = { ...hit[1], label: hit[0] };
+		if (hit) {
+			rs.start = { ...hit[1], label: hit[0] };
+			rs.gpsAccuracy = null;
+			locationError = null;
+		}
 	}
 
 	const minutesLabel = (seconds: number) => `${Math.max(1, Math.round(seconds / 60))} min`;
@@ -83,7 +95,7 @@
 		<button class="primary" onclick={useMyLocation} disabled={locating}>
 			{locating
 				? 'Hämtar plats…'
-				: rs.start?.label === 'Din plats'
+				: rs.gpsAccuracy !== null
 					? 'Uppdatera min plats'
 					: 'Starta från min plats'}
 		</button>
@@ -114,6 +126,14 @@
 			★ Endast favoriter
 		</button>
 	</div>
+
+	{#if rs.gpsAccuracy !== null && rs.start && !locationError}
+		<p class="note">
+			{rs.start.label === 'Din plats'
+				? `Din plats, noggrannhet ±${rs.gpsAccuracy} m.`
+				: `Platsen är osäker (±${rs.gpsAccuracy} m), så rutten startar vid närmaste hus. Byt hus i listan om det blev fel.`}
+		</p>
+	{/if}
 
 	{#if locationError}
 		<p class="note error" role="alert">{locationError}</p>
