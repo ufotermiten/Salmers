@@ -9,9 +9,10 @@
 		status: RoomStatus | null;
 		bookings: Booking[];
 		minute: number;
+		blockLabel?: string | null;
 	}
 
-	let { room, status, bookings, minute }: Props = $props();
+	let { room, status, bookings, minute, blockLabel = null }: Props = $props();
 	let open = $state(false);
 
 	const isFavorite = $derived(favorites.has(room.id));
@@ -30,6 +31,14 @@
 	const label = $derived.by(() => {
 		if (room.dropIn) return { text: 'Drop-in', tone: 'free' };
 		if (!status) return { text: '…', tone: 'muted' };
+		if (blockLabel) {
+			// During lunch a room can be booked right now yet free for the whole afternoon.
+			return {
+				text: blockLabel,
+				sub: status.free ? undefined : `upptagen till ${formatMinute(status.until)}`,
+				tone: 'free'
+			};
+		}
 		if (status.free) {
 			if (status.until === null) return { text: 'Ledig resten av dagen', tone: 'free' };
 			return {

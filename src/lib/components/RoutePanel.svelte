@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Booking, Room } from '#lib/types.ts';
+	import type { Block } from '#lib/blocks.ts';
 	import { planRoute, type RoutePlan } from '#lib/route.ts';
 	import { CAMPUS_CENTER, distanceMeters, getPosition, resolveStart } from '#lib/location.ts';
 	import { formatMinute } from '#lib/time.ts';
@@ -11,12 +12,14 @@
 		candidates: { room: Room; bookings: Booking[] }[];
 		allRooms: Room[];
 		minute: number;
+		/** Relevant teaching block; when set, only rooms free until it ends are routed. */
+		block: Block | null;
 		ready: boolean;
 	}
 
-	let { candidates, allRooms, minute, ready }: Props = $props();
+	let { candidates, allRooms, minute, block, ready }: Props = $props();
 
-	const BUDGETS = [5, 10, 15, 20];
+	const BUDGETS: (number | null)[] = [5, 10, 15, 20, null];
 	const FAR_FROM_CAMPUS_M = 2500;
 	/** Beyond this a fix can't even tell buildings apart (typically "approximate location"). */
 	const TOO_VAGUE_M = 300;
@@ -46,7 +49,8 @@
 			? planRoute(routed, {
 					start: rs.start,
 					startMinute: minute,
-					budgetMinutes: rs.budget,
+					budgetMinutes: rs.budget ?? Infinity,
+					freeThrough: block ? { from: block.start, until: block.end } : undefined,
 					// Favorites were picked by hand: visit every one that fits, stairs or not.
 					maxSecondsPerRoom: rs.favoritesOnly ? Infinity : undefined
 				})
@@ -111,7 +115,7 @@
 		<span>Max</span>
 		{#each BUDGETS as b (b)}
 			<button class="chip" class:active={rs.budget === b} onclick={() => (rs.budget = b)}
-				>{b} min</button
+				>{b === null ? 'Ingen gräns' : `${b} min`}</button
 			>
 		{/each}
 	</div>
@@ -126,6 +130,13 @@
 			★ Endast favoriter
 		</button>
 	</div>
+
+	{#if block}
+		<p class="note">
+			Bara salar som är lediga {minute <= block.start ? 'hela' : 'resten av'}
+			{block.name} (till {formatMinute(block.end)}) tas med.
+		</p>
+	{/if}
 
 	{#if rs.gpsAccuracy !== null && rs.start && !locationError}
 		<p class="note">
@@ -153,8 +164,9 @@
 		</p>
 	{:else if plan && plan.stops.length === 0}
 		<p class="note">
-			Inga lediga {rs.favoritesOnly ? 'favoriter' : 'salar'} inom {rs.budget} min från {rs.start.label.toLowerCase()}.
-			Prova en längre runda.
+			Inga lediga {rs.favoritesOnly ? 'favoriter' : 'salar'}
+			{rs.budget === null ? 'värda att gå till' : `inom ${rs.budget} min`} från {rs.start.label.toLowerCase()}.
+			{rs.budget === null ? '' : 'Prova en längre runda.'}
 		</p>
 	{:else if plan}
 		<p class="summary">

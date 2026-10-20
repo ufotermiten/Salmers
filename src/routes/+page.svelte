@@ -4,6 +4,7 @@
 	import type { Booking, Room, RoomStatus, RoomType } from '#lib/types.ts';
 	import { cachedDay, loadDay, type DayData } from '#lib/dayCache.ts';
 	import { statusAt } from '#lib/schedule.ts';
+	import { freeThroughBlock, relevantBlock } from '#lib/blocks.ts';
 	import { favorites, hidden, hiddenTypes, toggleHiddenType } from '#lib/roomLists.svelte.ts';
 	import { formatDateLabel, formatMinute, parseHHMM, stockholmNow } from '#lib/time.ts';
 	import RoomCard from '#lib/components/RoomCard.svelte';
@@ -49,7 +50,14 @@
 		room: Room;
 		status: RoomStatus | null;
 		bookings: Booking[];
+		/** Set when the room is free for the rest of the relevant block, e.g. "Ledig hela eftermiddagen". */
+		blockLabel: string | null;
 	}
+
+	const block = $derived(relevantBlock(minute));
+	const blockPhrase = $derived(
+		block ? `${minute <= block.start ? 'hela' : 'resten av'} ${block.name}` : null
+	);
 
 	const entries = $derived.by<Entry[]>(() => {
 		const q = query.trim().toLowerCase();
@@ -66,7 +74,14 @@
 			)
 			.map((room) => {
 				const bookings = day?.bookings.get(room.id) ?? [];
-				return { room, bookings, status: day ? statusAt(bookings, minute) : null };
+				const wholeBlock =
+					day && block && !room.dropIn && freeThroughBlock(bookings, minute, block);
+				return {
+					room,
+					bookings,
+					status: day ? statusAt(bookings, minute) : null,
+					blockLabel: wholeBlock ? `Ledig ${blockPhrase}` : null
+				};
 			});
 	});
 
@@ -82,14 +97,16 @@
 	const favoriteEntries = $derived(
 		onlyFavorites ? [] : visible.filter((e) => favorites.has(e.room.id)).sort(byName)
 	);
+	// Rooms free for the whole relevant block always rank above rooms that are only free a while.
+	const wholeBlock = $derived(visible.filter((e) => e.blockLabel).sort(byName));
 	const free = $derived(
 		visible
-			.filter((e) => !e.room.dropIn && e.status?.free)
+			.filter((e) => !e.room.dropIn && e.status?.free && !e.blockLabel)
 			.sort((a, b) => freeLength(b) - freeLength(a) || byName(a, b))
 	);
 	const busy = $derived(
 		visible
-			.filter((e) => !e.room.dropIn && e.status && !e.status.free)
+			.filter((e) => !e.room.dropIn && e.status && !e.status.free && !e.blockLabel)
 			.sort((a, b) => a.status!.until! - b.status!.until! || byName(a, b))
 	);
 	const dropIn = $derived(visible.filter((e) => e.room.dropIn).sort(byName));
@@ -234,8 +251,17 @@
 <main>
 	<p class="summary">
 		{#if day}
-			<strong>{free.length}</strong> lediga {mode === 'now'
-				? 'just nu'
+			{#if block}
+				<strong>{wholeBlock.length}</strong> lediga {blockPhrase}{free.length
+					? `, ${free.length} en stund`
+					: ''}
+			{:else}
+				<strong>{free.length}</strong> lediga
+			{/if}
+			{mode === 'now'
+				? block
+					? ''
+					: 'just nu'
 				: `${formatDateLabel(date, now.date).toLowerCase()} kl ${formatMinute(minute)}`}
 			<span class="updated">· uppdaterat {updatedLabel}</span>
 		{:else if loading}
@@ -251,7 +277,7 @@
 	{/if}
 
 	{#if view === 'route'}
-		<RoutePanel candidates={visible} allRooms={rooms} {minute} ready={day !== null} />
+		<RoutePanel candidates={visible} allRooms={rooms} {minute} {block} ready={day !== null} />
 	{:else}
 		{#if favoriteEntries.length}
 			<section>
@@ -262,14 +288,23 @@
 			</section>
 		{/if}
 
+		{#if wholeBlock.length}
+			<section>
+				<h2>Lediga {blockPhrase}</h2>
+				{#each wholeBlock as e (e.room.id)}
+					<RoomCard {...e} {minute} />
+				{/each}
+			</section>
+		{/if}
+
 		{#if free.length}
 			<section>
-				<h2>Lediga</h2>
+				<h2>{block ? 'Lediga en stund' : 'Lediga'}</h2>
 				{#each free as e (e.room.id)}
 					<RoomCard {...e} {minute} />
 				{/each}
 			</section>
-		{:else if day && !loading && busy.length}
+		{:else if day && !loading && busy.length && !wholeBlock.length}
 			<p class="empty">Inga lediga salar matchar just nu.</p>
 		{/if}
 

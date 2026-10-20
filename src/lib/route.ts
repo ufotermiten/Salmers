@@ -49,6 +49,11 @@ export interface RouteOptions {
 	budgetMinutes: number;
 	/** A room must stay free at least this long after arrival. */
 	minFreeMinutes?: number;
+	/**
+	 * Require each room to be free from arrival (or `from`, if later) until `until`, instead of
+	 * just minFreeMinutes after arrival. Used to keep rooms that are free for the rest of a block.
+	 */
+	freeThrough?: { from: number; until: number };
 	/** Skip moves costing more than this per room (default MAX_SECONDS_PER_ROOM); Infinity = budget only. */
 	maxSecondsPerRoom?: number;
 }
@@ -121,11 +126,25 @@ function validWindows(bookings: Booking[], minFree: number): [number, number][] 
 	return out;
 }
 
+/** Arrival intervals where no booking overlaps [max(arrival, from), until) and >= minFree remains. */
+function windowsThrough(
+	bookings: Booking[],
+	from: number,
+	until: number,
+	minFree: number
+): [number, number][] {
+	let lastEnd = -Infinity;
+	for (const b of bookings) if (b.start < until && b.end > from) lastEnd = Math.max(lastEnd, b.end);
+	const latest = until - minFree;
+	return lastEnd <= latest ? [[lastEnd, latest]] : [];
+}
+
 function makeNode(
 	room: Room,
 	bookings: Booking[],
 	startMinute: number,
-	minFree: number
+	minFree: number,
+	freeThrough?: { from: number; until: number }
 ): Node | null {
 	if (!isNum(room.lat) || !isNum(room.lng)) return null;
 	const hasEntrance = isNum(room.entranceLat) && isNum(room.entranceLng);
@@ -153,7 +172,11 @@ function makeNode(
 		toEntranceFloors,
 		toEntranceSeconds:
 			walkSeconds(room.lat, room.lng, entLat, entLng) + toEntranceFloors * STAIR_SECONDS,
-		windows: room.dropIn ? [[-Infinity, Infinity]] : validWindows(bookings, minFree),
+		windows: room.dropIn
+			? [[-Infinity, Infinity]]
+			: freeThrough
+				? windowsThrough(bookings, freeThrough.from, freeThrough.until, minFree)
+				: validWindows(bookings, minFree),
 		value:
 			1 + (FREE_TIME_BONUS * Math.min(freeFor, FREE_TIME_BONUS_HORIZON)) / FREE_TIME_BONUS_HORIZON
 	};
@@ -225,7 +248,7 @@ export function planRoute(
 	for (const c of sorted) {
 		if (seen.has(c.room.id)) continue;
 		seen.add(c.room.id);
-		const node = makeNode(c.room, c.bookings ?? [], t0, minFree);
+		const node = makeNode(c.room, c.bookings ?? [], t0, minFree, options.freeThrough);
 		if (!node) continue;
 		const leg = startLeg(options.start, node);
 		if (leg.seconds + VISIT_SECONDS > budget + EPS) continue;

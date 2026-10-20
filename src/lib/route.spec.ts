@@ -164,6 +164,27 @@ describe('planRoute', () => {
 		expect(late!.arrivalMinute).toBeGreaterThanOrEqual(602);
 	});
 
+	it('with freeThrough, only keeps rooms free from arrival to the end of the block', () => {
+		const block = { from: 600, until: 705 };
+		const plan = planRoute(
+			[
+				free(mk('ok', { dy: 2 })),
+				free(mk('bookedLater', { dy: 3 }), [{ start: 660, end: 720, title: '' }]),
+				free(mk('bookedBefore', { dy: 4 }), [{ start: 480, end: 590, title: '' }])
+			],
+			opts({ startMinute: 600, freeThrough: block })
+		);
+		expect(ids(plan).sort()).toEqual(['bookedBefore', 'ok']);
+	});
+
+	it('with freeThrough before the block starts, ignores bookings until it does', () => {
+		const plan = planRoute(
+			[free(mk('lunchBooked', { dy: 2 }), [{ start: 720, end: 780, title: '' }])],
+			opts({ startMinute: 750, freeThrough: { from: 795, until: 1020 } })
+		);
+		expect(ids(plan)).toEqual(['lunchBooked']);
+	});
+
 	it('treats drop-in rooms as always available', () => {
 		const plan = planRoute(
 			[free(mk('d', { dy: 2, dropIn: true }), [{ start: 0, end: 1440, title: '' }])],
@@ -191,10 +212,11 @@ describe('planRoute', () => {
 		for (const s of plan.stops) expect(Number.isFinite(s.walkSeconds)).toBe(true);
 	});
 
-	it('is deterministic and fast for 150 candidates', () => {
+	/** 150 rooms in 12 buildings over up to six floors, 40 % with a 90-minute booking. */
+	function campus() {
 		let seed = 42;
 		const rand = () => (seed = (seed * 1103515245 + 12345) % 2 ** 31) / 2 ** 31;
-		const candidates = Array.from({ length: 150 }, (_, i) => {
+		return Array.from({ length: 150 }, (_, i) => {
 			const b = i % 12;
 			const room = mk(`r${String(i).padStart(3, '0')}`, {
 				dy: (b % 4) * 8 + rand() * 3,
@@ -208,6 +230,10 @@ describe('planRoute', () => {
 			const bookings: Booking[] = rand() < 0.4 ? [{ start, end: start + 90, title: '' }] : [];
 			return { room, bookings };
 		});
+	}
+
+	it('is deterministic and fast for 150 candidates', () => {
+		const candidates = campus();
 		const options = opts({ budgetMinutes: 45 });
 
 		const t = performance.now();
@@ -219,5 +245,24 @@ describe('planRoute', () => {
 		expect(first.stops.length).toBeGreaterThan(10);
 		expect(first.totalSeconds).toBeLessThanOrEqual(45 * 60);
 		expect(elapsed).toBeLessThan(500);
+	});
+
+	it('without a budget, keeps going while rooms are worth it and stays fast', () => {
+		const candidates = campus();
+		const t = performance.now();
+		const plan = planRoute(candidates, opts({ budgetMinutes: Infinity }));
+		const elapsed = performance.now() - t;
+
+		expect(plan.stops.length).toBeGreaterThan(
+			planRoute(candidates, opts({ budgetMinutes: 45 })).stops.length
+		);
+		expect(Number.isFinite(plan.totalSeconds)).toBe(true);
+		expect(elapsed).toBeLessThan(1000);
+	});
+
+	it('still skips a lone room up the stairs without a budget', () => {
+		const plan = planRoute(flScenario(1), opts({ budgetMinutes: Infinity }));
+		expect(ids(plan)).not.toContain('FL1');
+		expect(ids(plan)).toEqual(expect.arrayContaining(['A1', 'A2', 'A3']));
 	});
 });
