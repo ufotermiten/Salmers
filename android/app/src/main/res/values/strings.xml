@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Salmers</string>
+    <string name="title_activity_main">Salmers</string>
+    <string name="package_name">se.salmers.app</string>
+    <string name="custom_url_scheme">se.salmers.app</string>
+</resources>
