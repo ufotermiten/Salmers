@@ -54,6 +54,11 @@ export interface RouteOptions {
 	 * just minFreeMinutes after arrival. Used to keep rooms that are free for the rest of a block.
 	 */
 	freeThrough?: { from: number; until: number };
+	/**
+	 * Skip the arrival-time check: the caller has already picked the rooms it wants visited
+	 * (e.g. everything the list shows as free), so order them all however long the walk gets.
+	 */
+	anyArrival?: boolean;
 	/** Skip moves costing more than this per room (default MAX_SECONDS_PER_ROOM); Infinity = budget only. */
 	maxSecondsPerRoom?: number;
 }
@@ -144,7 +149,8 @@ function makeNode(
 	bookings: Booking[],
 	startMinute: number,
 	minFree: number,
-	freeThrough?: { from: number; until: number }
+	freeThrough?: { from: number; until: number },
+	anyArrival = false
 ): Node | null {
 	if (!isNum(room.lat) || !isNum(room.lng)) return null;
 	const hasEntrance = isNum(room.entranceLat) && isNum(room.entranceLng);
@@ -172,11 +178,12 @@ function makeNode(
 		toEntranceFloors,
 		toEntranceSeconds:
 			walkSeconds(room.lat, room.lng, entLat, entLng) + toEntranceFloors * STAIR_SECONDS,
-		windows: room.dropIn
-			? [[-Infinity, Infinity]]
-			: freeThrough
-				? windowsThrough(bookings, freeThrough.from, freeThrough.until, minFree)
-				: validWindows(bookings, minFree),
+		windows:
+			room.dropIn || anyArrival
+				? [[-Infinity, Infinity]]
+				: freeThrough
+					? windowsThrough(bookings, freeThrough.from, freeThrough.until, minFree)
+					: validWindows(bookings, minFree),
 		value:
 			1 + (FREE_TIME_BONUS * Math.min(freeFor, FREE_TIME_BONUS_HORIZON)) / FREE_TIME_BONUS_HORIZON
 	};
@@ -248,7 +255,14 @@ export function planRoute(
 	for (const c of sorted) {
 		if (seen.has(c.room.id)) continue;
 		seen.add(c.room.id);
-		const node = makeNode(c.room, c.bookings ?? [], t0, minFree, options.freeThrough);
+		const node = makeNode(
+			c.room,
+			c.bookings ?? [],
+			t0,
+			minFree,
+			options.freeThrough,
+			options.anyArrival
+		);
 		if (!node) continue;
 		const leg = startLeg(options.start, node);
 		if (leg.seconds + VISIT_SECONDS > budget + EPS) continue;

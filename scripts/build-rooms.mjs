@@ -314,9 +314,28 @@ async function addWalkingFields(rooms) {
 	}));
 }
 
-const rooms = (await addWalkingFields([...(await timeEditRooms()), ...(await studySpaces())])).sort(
-	(a, b) => a.name.localeCompare(b.name, 'sv', { numeric: true })
-);
+/**
+ * Rooms without a maps link have no coordinates and could never be routed. Place them at the
+ * most common entrance of other rooms in the same TimeEdit building (or walking group) instead:
+ * the exact spot inside is unknown, but the building and floor are what matter for the route.
+ */
+function borrowSiblingPositions(rooms) {
+	const located = rooms.filter((r) => r.lat !== null && r.entranceLat !== null);
+	return rooms.map((r) => {
+		if (r.lat !== null) return r;
+		let siblings = located.filter((s) => r.building && s.building === r.building);
+		if (!siblings.length)
+			siblings = located.filter((s) => r.buildingId && s.buildingId === r.buildingId);
+		const entrance = mode(siblings.map((s) => `${s.entranceLat},${s.entranceLng}`));
+		if (!entrance) return r;
+		const [lat, lng] = entrance.split(',').map(Number);
+		return { ...r, lat, lng, entranceLat: lat, entranceLng: lng };
+	});
+}
+
+const rooms = borrowSiblingPositions(
+	await addWalkingFields([...(await timeEditRooms()), ...(await studySpaces())])
+).sort((a, b) => a.name.localeCompare(b.name, 'sv', { numeric: true }));
 
 await mkdir(new URL('.', OUT), { recursive: true });
 await writeFile(

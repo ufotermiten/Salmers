@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Booking, Room } from '#lib/types.ts';
+	import type { Booking, Room, RoomStatus } from '#lib/types.ts';
 	import type { Block } from '#lib/blocks.ts';
 	import { planRoute, type RoutePlan } from '#lib/route.ts';
 	import { CAMPUS_CENTER, distanceMeters, getPosition, resolveStart } from '#lib/location.ts';
@@ -9,7 +9,13 @@
 	import RouteMap from './RouteMap.svelte';
 
 	interface Props {
-		candidates: { room: Room; bookings: Booking[] }[];
+		candidates: {
+			room: Room;
+			bookings: Booking[];
+			status: RoomStatus | null;
+			/** Set when the list shows the room as free for the rest of the block. */
+			blockLabel: string | null;
+		}[];
 		allRooms: Room[];
 		minute: number;
 		/** Relevant teaching block; when set, only rooms free until it ends are routed. */
@@ -40,8 +46,17 @@
 		return [...byName].sort(([a], [b]) => a.localeCompare(b, 'sv'));
 	});
 
+	const unlimited = $derived(rs.budget === null);
+
+	/** Free by the same rule as the top of the list: the rest of the block, or right now. */
+	const listedFree = (c: Props['candidates'][number]) =>
+		c.room.dropIn || (block ? c.blockLabel !== null : c.status?.free === true);
+
 	const routed = $derived(
-		rs.favoritesOnly ? candidates.filter((c) => favorites.has(c.room.id)) : candidates
+		candidates
+			.filter((c) => !rs.favoritesOnly || favorites.has(c.room.id))
+			// "Ingen gräns" means every room the list shows as free, in a sensible walking order.
+			.filter((c) => !unlimited || listedFree(c))
 	);
 
 	const plan = $derived<RoutePlan | null>(
@@ -50,9 +65,11 @@
 					start: rs.start,
 					startMinute: minute,
 					budgetMinutes: rs.budget ?? Infinity,
-					freeThrough: block ? { from: block.start, until: block.end } : undefined,
-					// Favorites were picked by hand: visit every one that fits, stairs or not.
-					maxSecondsPerRoom: rs.favoritesOnly ? Infinity : undefined
+					freeThrough: block && !unlimited ? { from: block.start, until: block.end } : undefined,
+					anyArrival: unlimited,
+					// Favorites were picked by hand, and "Ingen gräns" asks for everything: visit every
+					// room, stairs or not.
+					maxSecondsPerRoom: rs.favoritesOnly || unlimited ? Infinity : undefined
 				})
 			: null
 	);
@@ -131,7 +148,13 @@
 		</button>
 	</div>
 
-	{#if block}
+	{#if unlimited}
+		<p class="note">
+			Går förbi alla salar som är lediga {block
+				? `${minute <= block.start ? 'hela' : 'resten av'} ${block.name}`
+				: 'just nu'} i en smidig ordning, hur lång rundan än blir.
+		</p>
+	{:else if block}
 		<p class="note">
 			Bara salar som är lediga {minute <= block.start ? 'hela' : 'resten av'}
 			{block.name} (till {formatMinute(block.end)}) tas med.

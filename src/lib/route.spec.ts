@@ -185,6 +185,22 @@ describe('planRoute', () => {
 		expect(ids(plan)).toEqual(['lunchBooked']);
 	});
 
+	it('with anyArrival, visits every candidate regardless of later bookings', () => {
+		const plan = planRoute(
+			[
+				free(mk('a', { dy: 2 })),
+				free(mk('bookedSoon', { dy: 3 }), [{ start: 605, end: 700, title: '' }])
+			],
+			opts({
+				startMinute: 600,
+				budgetMinutes: Infinity,
+				maxSecondsPerRoom: Infinity,
+				anyArrival: true
+			})
+		);
+		expect(ids(plan).sort()).toEqual(['a', 'bookedSoon']);
+	});
+
 	it('treats drop-in rooms as always available', () => {
 		const plan = planRoute(
 			[free(mk('d', { dy: 2, dropIn: true }), [{ start: 0, end: 1440, title: '' }])],
