@@ -7,7 +7,7 @@
 
 import { self } from '$app/service-worker';
 import { immutable, assets, prerendered } from '$app/manifest';
-import { version } from '$app/env';
+import { dev, version } from '$app/env';
 
 const CACHE_PREFIX = 'salmers-';
 const CACHE = `${CACHE_PREFIX}${version}`;
@@ -26,37 +26,52 @@ const PRECACHE_SET = new Set(PRECACHE);
 // Fall back to the cached shell if the network is this slow on a navigation.
 const NAVIGATION_TIMEOUT_MS = 4000;
 
-self.addEventListener('install', (event) => {
-	event.waitUntil(
-		caches
-			.open(CACHE)
-			.then((cache) => cache.addAll(PRECACHE))
-			.then(() => self.skipWaiting())
-	);
-});
+if (dev) {
+	// Cache-first would serve stale modules over Vite's HMR, so in dev just clear out and step aside.
+	self.addEventListener('install', () => self.skipWaiting());
+	self.addEventListener('activate', (event) => {
+		event.waitUntil(
+			(async () => {
+				for (const key of await caches.keys()) {
+					if (key.startsWith(CACHE_PREFIX)) await caches.delete(key);
+				}
+				await self.registration.unregister();
+			})()
+		);
+	});
+} else {
+	self.addEventListener('install', (event) => {
+		event.waitUntil(
+			caches
+				.open(CACHE)
+				.then((cache) => cache.addAll(PRECACHE))
+				.then(() => self.skipWaiting())
+		);
+	});
 
-self.addEventListener('activate', (event) => {
-	event.waitUntil(
-		(async () => {
-			// Only touch our own caches: on GitHub Pages the origin is shared with other projects.
-			for (const key of await caches.keys()) {
-				if (key.startsWith(CACHE_PREFIX) && key !== CACHE) await caches.delete(key);
-			}
-			await self.clients.claim();
-		})()
-	);
-});
+	self.addEventListener('activate', (event) => {
+		event.waitUntil(
+			(async () => {
+				// Only touch our own caches: on GitHub Pages the origin is shared with other projects.
+				for (const key of await caches.keys()) {
+					if (key.startsWith(CACHE_PREFIX) && key !== CACHE) await caches.delete(key);
+				}
+				await self.clients.claim();
+			})()
+		);
+	});
 
-self.addEventListener('fetch', (event) => {
-	const { request } = event;
-	if (request.method !== 'GET') return;
+	self.addEventListener('fetch', (event) => {
+		const { request } = event;
+		if (request.method !== 'GET') return;
 
-	const url = new URL(request.url);
-	// Cross-origin (TimeEdit, maps.chalmers.se, ...) and out-of-scope requests go straight to the network.
-	if (url.origin !== self.location.origin || !url.href.startsWith(scope)) return;
+		const url = new URL(request.url);
+		// Cross-origin (TimeEdit, maps.chalmers.se, ...) and out-of-scope requests go straight to the network.
+		if (url.origin !== self.location.origin || !url.href.startsWith(scope)) return;
 
-	event.respondWith(request.mode === 'navigate' ? navigate(request) : cacheFirst(request));
-});
+		event.respondWith(request.mode === 'navigate' ? navigate(request) : cacheFirst(request));
+	});
+}
 
 async function navigate(request: Request): Promise<Response> {
 	const cache = await caches.open(CACHE);

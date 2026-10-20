@@ -113,6 +113,11 @@ describe('planRoute', () => {
 		expect((four.totalSeconds - one.totalSeconds) / 4).toBeLessThanOrEqual(MAX_SECONDS_PER_ROOM);
 	});
 
+	it('climbs for a single room when the worthiness threshold is off', () => {
+		const plan = planRoute(flScenario(1), opts({ maxSecondsPerRoom: Infinity }));
+		expect(ids(plan)).toContain('FL1');
+	});
+
 	it('skips a lone upper-floor room in the same building as ground-floor rooms', () => {
 		const fysik = (id: string, dx: number, level: number) =>
 			free(mk(id, { buildingId: 'F', entrance: { dy: 2 }, entranceLevel: 1, dy: 3, dx, level }));

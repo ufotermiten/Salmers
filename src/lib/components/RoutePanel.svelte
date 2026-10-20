@@ -3,6 +3,8 @@
 	import { planRoute, type RoutePlan } from '#lib/route.ts';
 	import { CAMPUS_CENTER, distanceMeters, getPosition, type Position } from '#lib/location.ts';
 	import { formatMinute } from '#lib/time.ts';
+	import { favorites } from '#lib/roomLists.svelte.ts';
+	import { routeSettings as rs } from '#lib/routeSettings.svelte.ts';
 	import RouteMap from './RouteMap.svelte';
 
 	interface Props {
@@ -17,11 +19,8 @@
 	const BUDGETS = [5, 10, 15, 20];
 	const FAR_FROM_CAMPUS_M = 2500;
 
-	let budget = $state(10);
-	let start = $state<{ lat: number; lng: number; label: string } | null>(null);
 	let locating = $state(false);
 	let locationError = $state<string | null>(null);
-	let pickedBuilding = $state('');
 
 	/** One start point per building, at its entrance when known. */
 	const buildings = $derived.by(() => {
@@ -36,9 +35,19 @@
 		return [...byName].sort(([a], [b]) => a.localeCompare(b, 'sv'));
 	});
 
+	const routed = $derived(
+		rs.favoritesOnly ? candidates.filter((c) => favorites.has(c.room.id)) : candidates
+	);
+
 	const plan = $derived<RoutePlan | null>(
-		start && ready
-			? planRoute(candidates, { start, startMinute: minute, budgetMinutes: budget })
+		rs.start && ready && routed.length
+			? planRoute(routed, {
+					start: rs.start,
+					startMinute: minute,
+					budgetMinutes: rs.budget,
+					// Favorites were picked by hand: visit every one that fits, stairs or not.
+					maxSecondsPerRoom: rs.favoritesOnly ? Infinity : undefined
+				})
 			: null
 	);
 
@@ -51,8 +60,8 @@
 				locationError = 'Du verkar inte vara på Johanneberg. Välj en startpunkt i listan.';
 				return;
 			}
-			start = { lat: pos.lat, lng: pos.lng, label: 'Din plats' };
-			pickedBuilding = '';
+			rs.start = { lat: pos.lat, lng: pos.lng, label: 'Din plats' };
+			rs.pickedBuilding = '';
 		} catch (e) {
 			locationError = (e as Error).message;
 		} finally {
@@ -61,8 +70,8 @@
 	}
 
 	function pickBuilding() {
-		const hit = buildings.find(([name]) => name === pickedBuilding);
-		if (hit) start = { ...hit[1], label: hit[0] };
+		const hit = buildings.find(([name]) => name === rs.pickedBuilding);
+		if (hit) rs.start = { ...hit[1], label: hit[0] };
 	}
 
 	const minutesLabel = (seconds: number) => `${Math.max(1, Math.round(seconds / 60))} min`;
@@ -74,11 +83,11 @@
 		<button class="primary" onclick={useMyLocation} disabled={locating}>
 			{locating
 				? 'Hämtar plats…'
-				: start?.label === 'Din plats'
+				: rs.start?.label === 'Din plats'
 					? 'Uppdatera min plats'
 					: 'Starta från min plats'}
 		</button>
-		<select bind:value={pickedBuilding} onchange={pickBuilding} aria-label="Välj startpunkt">
+		<select bind:value={rs.pickedBuilding} onchange={pickBuilding} aria-label="Välj startpunkt">
 			<option value="">…eller välj hus</option>
 			{#each buildings as [name] (name)}
 				<option value={name}>{name}</option>
@@ -89,15 +98,28 @@
 	<div class="budget" role="group" aria-label="Hur lång runda">
 		<span>Max</span>
 		{#each BUDGETS as b (b)}
-			<button class="chip" class:active={budget === b} onclick={() => (budget = b)}>{b} min</button>
+			<button class="chip" class:active={rs.budget === b} onclick={() => (rs.budget = b)}
+				>{b} min</button
+			>
 		{/each}
+	</div>
+
+	<div class="budget">
+		<button
+			class="chip"
+			class:active={rs.favoritesOnly}
+			onclick={() => (rs.favoritesOnly = !rs.favoritesOnly)}
+			aria-pressed={rs.favoritesOnly}
+		>
+			★ Endast favoriter
+		</button>
 	</div>
 
 	{#if locationError}
 		<p class="note error" role="alert">{locationError}</p>
 	{/if}
 
-	{#if !start}
+	{#if !rs.start}
 		<p class="note">
 			Rutten går förbi så många lediga salar som möjligt inom vald tid. Trappor och promenader
 			utomhus kostar, så en våning med bara en ledig sal hoppas över medan en våning full av lediga
@@ -105,17 +127,22 @@
 		</p>
 	{:else if !ready}
 		<p class="note">Hämtar schema…</p>
+	{:else if rs.favoritesOnly && !routed.length}
+		<p class="note">
+			Inga favoriter att gå förbi. Stjärnmarkera salar i listan, eller stäng av "Endast favoriter".
+		</p>
 	{:else if plan && plan.stops.length === 0}
 		<p class="note">
-			Inga lediga salar inom {budget} min från {start.label.toLowerCase()}. Prova en längre runda.
+			Inga lediga {rs.favoritesOnly ? 'favoriter' : 'salar'} inom {rs.budget} min från {rs.start.label.toLowerCase()}.
+			Prova en längre runda.
 		</p>
 	{:else if plan}
 		<p class="summary">
 			<strong>{plan.stops.length} {plan.stops.length === 1 ? 'sal' : 'salar'}</strong> på ca {minutesLabel(
 				plan.totalSeconds
-			)} från {start.label}
+			)} från {rs.start.label}
 		</p>
-		<RouteMap {start} stops={plan.stops} />
+		<RouteMap start={rs.start} stops={plan.stops} />
 		<ol class="stops">
 			{#each plan.stops as s, i (s.room.id)}
 				<li>

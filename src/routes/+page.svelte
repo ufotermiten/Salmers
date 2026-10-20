@@ -4,13 +4,19 @@
 	import type { Booking, Room, RoomStatus, RoomType } from '#lib/types.ts';
 	import { cachedDay, loadDay, type DayData } from '#lib/dayCache.ts';
 	import { statusAt } from '#lib/schedule.ts';
-	import { favorites } from '#lib/favorites.svelte.ts';
+	import { favorites, hidden, hiddenTypes, toggleHiddenType } from '#lib/roomLists.svelte.ts';
 	import { formatDateLabel, formatMinute, parseHHMM, stockholmNow } from '#lib/time.ts';
 	import RoomCard from '#lib/components/RoomCard.svelte';
 	import RoutePanel from '#lib/components/RoutePanel.svelte';
 
 	const rooms = catalog.rooms as Room[];
 	const TYPES: RoomType[] = ['Lektionssal', 'Hörsal', 'Datorsal', 'Studieplats'];
+	const TYPE_LABELS: Record<RoomType, string> = {
+		Lektionssal: 'Lektionssalar',
+		Hörsal: 'Hörsalar',
+		Datorsal: 'Datorsalar',
+		Studieplats: 'Studieplatser (drop-in)'
+	};
 
 	const initial = stockholmNow();
 	let now = $state(initial);
@@ -22,8 +28,14 @@
 
 	let query = $state('');
 	let activeTypes = $state<RoomType[]>([]);
+	let showCategories = $state(false);
+
+	// Hidden categories are gone everywhere: no chip, no list entry, no route stop.
+	const visibleTypes = $derived(TYPES.filter((t) => !hiddenTypes.has(t)));
+	const typeFilter = $derived(activeTypes.filter((t) => !hiddenTypes.has(t)));
 	let onlyFavorites = $state(false);
 	let showBusy = $state(false);
+	let showHidden = $state(true);
 	let view = $state<'list' | 'route'>('list');
 
 	let day = $state<DayData | null>(null);
@@ -42,7 +54,8 @@
 	const entries = $derived.by<Entry[]>(() => {
 		const q = query.trim().toLowerCase();
 		return rooms
-			.filter((r) => activeTypes.length === 0 || activeTypes.includes(r.type))
+			.filter((r) => !hiddenTypes.has(r.type))
+			.filter((r) => typeFilter.length === 0 || typeFilter.includes(r.type))
 			.filter((r) => !onlyFavorites || favorites.has(r.id))
 			.filter(
 				(r) =>
@@ -62,20 +75,24 @@
 	const byName = (a: Entry, b: Entry) =>
 		a.room.name.localeCompare(b.room.name, 'sv', { numeric: true });
 
+	// Hidden (blacklisted) rooms only appear in their own section at the bottom.
+	const visible = $derived(entries.filter((e) => !hidden.has(e.room.id)));
+	const hiddenEntries = $derived(entries.filter((e) => hidden.has(e.room.id)).sort(byName));
+
 	const favoriteEntries = $derived(
-		onlyFavorites ? [] : entries.filter((e) => favorites.has(e.room.id)).sort(byName)
+		onlyFavorites ? [] : visible.filter((e) => favorites.has(e.room.id)).sort(byName)
 	);
 	const free = $derived(
-		entries
+		visible
 			.filter((e) => !e.room.dropIn && e.status?.free)
 			.sort((a, b) => freeLength(b) - freeLength(a) || byName(a, b))
 	);
 	const busy = $derived(
-		entries
+		visible
 			.filter((e) => !e.room.dropIn && e.status && !e.status.free)
 			.sort((a, b) => a.status!.until! - b.status!.until! || byName(a, b))
 	);
-	const dropIn = $derived(entries.filter((e) => e.room.dropIn).sort(byName));
+	const dropIn = $derived(visible.filter((e) => e.room.dropIn).sort(byName));
 
 	async function refresh(force = false) {
 		const target = date;
@@ -178,12 +195,40 @@
 		>
 			★ Favoriter
 		</button>
-		{#each TYPES as t (t)}
+		{#each visibleTypes as t (t)}
 			<button class="chip" class:active={activeTypes.includes(t)} onclick={() => toggleType(t)}
 				>{t}</button
 			>
 		{/each}
+		<button
+			class="chip ghost"
+			class:active={showCategories}
+			onclick={() => (showCategories = !showCategories)}
+			aria-expanded={showCategories}
+		>
+			Kategorier{hiddenTypes.size ? ` (${hiddenTypes.size} dolda)` : ''}
+		</button>
 	</div>
+
+	{#if showCategories}
+		<fieldset class="categories">
+			<legend>Visa kategorier</legend>
+			{#each TYPES as t (t)}
+				<label>
+					<input
+						type="checkbox"
+						checked={!hiddenTypes.has(t)}
+						onchange={() => toggleHiddenType(t)}
+					/>
+					{TYPE_LABELS[t]}
+				</label>
+			{/each}
+			<p>
+				Dolda kategorier visas inte i listan och tas inte med i rutter. Enskilda salar döljer du
+				genom att öppna salen.
+			</p>
+		</fieldset>
+	{/if}
 </header>
 
 <main>
@@ -206,7 +251,7 @@
 	{/if}
 
 	{#if view === 'route'}
-		<RoutePanel candidates={entries} allRooms={rooms} {minute} ready={day !== null} />
+		<RoutePanel candidates={visible} allRooms={rooms} {minute} ready={day !== null} />
 	{:else}
 		{#if favoriteEntries.length}
 			<section>
@@ -248,6 +293,24 @@
 				{#each dropIn as e (e.room.id)}
 					<RoomCard {...e} {minute} />
 				{/each}
+			</section>
+		{/if}
+
+		{#if hiddenEntries.length}
+			<section>
+				<button
+					class="toggle"
+					onclick={() => (showHidden = !showHidden)}
+					aria-expanded={showHidden}
+				>
+					<h2>Dolda salar ({hiddenEntries.length})</h2>
+					<span>{showHidden ? 'Dölj' : 'Visa'}</span>
+				</button>
+				{#if showHidden}
+					{#each hiddenEntries as e (e.room.id)}
+						<RoomCard {...e} {minute} />
+					{/each}
+				{/if}
 			</section>
 		{/if}
 
@@ -378,6 +441,41 @@
 		background: var(--accent);
 		border-color: var(--accent);
 		color: var(--on-accent);
+	}
+	.chip.ghost {
+		border-style: dashed;
+	}
+	.categories {
+		margin: 0;
+		padding: 10px 12px 12px;
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		background: var(--surface);
+		display: grid;
+		gap: 8px;
+	}
+	.categories legend {
+		padding: 0 4px;
+		font-size: 0.85rem;
+		color: var(--muted);
+	}
+	.categories label {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		min-height: 32px;
+	}
+	.categories input {
+		width: 20px;
+		height: 20px;
+		min-height: 0;
+		padding: 0;
+		accent-color: var(--accent);
+	}
+	.categories p {
+		margin: 0;
+		font-size: 0.8rem;
+		color: var(--muted);
 	}
 	main {
 		padding: 12px 16px calc(env(safe-area-inset-bottom) + 24px);

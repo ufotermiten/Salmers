@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Booking, Room, RoomStatus } from '#lib/types.ts';
-	import { favorites, toggleFavorite } from '#lib/favorites.svelte.ts';
+	import { favorites, hidden, toggleFavorite, toggleHidden } from '#lib/roomLists.svelte.ts';
 	import { formatDuration, formatMinute } from '#lib/time.ts';
 	import Timeline from './Timeline.svelte';
 
@@ -15,6 +15,7 @@
 	let open = $state(false);
 
 	const isFavorite = $derived(favorites.has(room.id));
+	const isHidden = $derived(hidden.has(room.id));
 	const meta = $derived(
 		[
 			room.type,
@@ -42,7 +43,7 @@
 	});
 </script>
 
-<article class="card" class:open>
+<article class="card" class:open class:hidden={isHidden}>
 	<div class="row">
 		<button class="main" onclick={() => (open = !open)} aria-expanded={open}>
 			<span class="name">{room.name}</span>
@@ -96,16 +97,21 @@
 				<p class="equipment">{room.equipment.join(' · ')}</p>
 			{/if}
 
-			{#if room.mapsId}
-				<a
-					class="map"
-					href="https://maps.chalmers.se/#{room.mapsId}"
-					target="_blank"
-					rel="noopener"
-				>
-					Visa på karta ↗
-				</a>
-			{/if}
+			<div class="actions">
+				{#if room.mapsId}
+					<a
+						class="map"
+						href="https://maps.chalmers.se/#{room.mapsId}"
+						target="_blank"
+						rel="noopener"
+					>
+						Visa på karta ↗
+					</a>
+				{/if}
+				<button class="hide" onclick={() => toggleHidden(room.id)} aria-pressed={isHidden}>
+					{isHidden ? 'Visa salen igen' : 'Dölj sal'}
+				</button>
+			</div>
 		</div>
 	{/if}
 </article>
@@ -231,6 +237,26 @@
 		margin: 0;
 		font-size: 0.88rem;
 		color: var(--muted);
+	}
+	.card.hidden .main {
+		opacity: 0.6;
+	}
+	.actions {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+	}
+	.hide {
+		margin-left: auto;
+		font: inherit;
+		font-size: 0.88rem;
+		padding: 6px 12px;
+		border-radius: 999px;
+		border: 1px solid var(--border);
+		background: none;
+		color: var(--muted);
+		cursor: pointer;
 	}
 	.map {
 		color: var(--accent);

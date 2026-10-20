@@ -49,6 +49,8 @@ export interface RouteOptions {
 	budgetMinutes: number;
 	/** A room must stay free at least this long after arrival. */
 	minFreeMinutes?: number;
+	/** Skip moves costing more than this per room (default MAX_SECONDS_PER_ROOM); Infinity = budget only. */
+	maxSecondsPerRoom?: number;
 }
 
 export interface RouteStop {
@@ -207,6 +209,7 @@ export function planRoute(
 	options: RouteOptions
 ): RoutePlan {
 	const minFree = options.minFreeMinutes ?? DEFAULT_MIN_FREE_MINUTES;
+	const maxPerRoom = options.maxSecondsPerRoom ?? MAX_SECONDS_PER_ROOM;
 	const budget = options.budgetMinutes * 60;
 	const t0 = options.startMinute;
 	const empty: RoutePlan = { stops: [], totalSeconds: 0 };
@@ -329,7 +332,7 @@ export function planRoute(
 		const consider = (p: number, block: number[]): boolean => {
 			const d = deltas(p, block);
 			if (total + d.real > budget + EPS) return false;
-			if (d.worth / block.length > MAX_SECONDS_PER_ROOM + EPS) return true;
+			if (d.worth / block.length > maxPerRoom + EPS) return true;
 			let value = 0;
 			for (const j of block) value += node(j).value;
 			const score = value / Math.max(d.worth, 1);
@@ -376,7 +379,7 @@ export function planRoute(
 				if (keys.length < 2) return block;
 				const base = deltas(p, block).worth;
 				let worst: number[] | null = null;
-				let worstPerRoom = MAX_SECONDS_PER_ROOM + EPS;
+				let worstPerRoom = maxPerRoom + EPS;
 				for (const key of keys) {
 					const rest = block.filter((j) => levelKey(j) !== key);
 					const perRoom = (base - deltas(p, rest).worth) / (block.length - rest.length);
