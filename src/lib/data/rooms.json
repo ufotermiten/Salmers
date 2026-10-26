@@ -1,5 +1,5 @@
 {
-	"generatedAt": "2026-10-20T14:21:23.400Z",
+	"generatedAt": "2026-10-26T09:28:49.224Z",
 	"rooms": [
 		{
 			"id": "18849.4",
@@ -175,7 +175,10 @@
 			"lat": 57.688081,
 			"lng": 11.978392,
 			"seats": 40,
-			"equipment": ["Whiteboard", "Windows"],
+			"equipment": [
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "3d288de3-e2dd-49e1-bbed-e62178e60a0e",
 			"entranceLat": 57.688193,
@@ -194,7 +197,9 @@
 			"lat": 57.687779,
 			"lng": 11.97951,
 			"seats": 28,
-			"equipment": ["Linux"],
+			"equipment": [
+				"Linux"
+			],
 			"dropIn": false,
 			"buildingId": "3d288de3-e2dd-49e1-bbed-e62178e60a0e",
 			"entranceLat": 57.687821,
@@ -213,7 +218,9 @@
 			"lat": 57.687779,
 			"lng": 11.979474,
 			"seats": 28,
-			"equipment": ["Linux"],
+			"equipment": [
+				"Linux"
+			],
 			"dropIn": false,
 			"buildingId": "3d288de3-e2dd-49e1-bbed-e62178e60a0e",
 			"entranceLat": 57.687821,
@@ -251,7 +258,10 @@
 			"lat": 57.687612,
 			"lng": 11.978759,
 			"seats": 20,
-			"equipment": ["Linux", "Windows"],
+			"equipment": [
+				"Linux",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "3d288de3-e2dd-49e1-bbed-e62178e60a0e",
 			"entranceLat": 57.687821,
@@ -358,7 +368,11 @@
 			"lat": 57.687776,
 			"lng": 11.978906,
 			"seats": 48,
-			"equipment": ["Data-projektor", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "3d288de3-e2dd-49e1-bbed-e62178e60a0e",
 			"entranceLat": 57.687766,
@@ -377,7 +391,11 @@
 			"lat": 57.687879,
 			"lng": 11.978814,
 			"seats": 48,
-			"equipment": ["Data-projektor", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "3d288de3-e2dd-49e1-bbed-e62178e60a0e",
 			"entranceLat": 57.687766,
@@ -396,7 +414,11 @@
 			"lat": 57.687982,
 			"lng": 11.978716,
 			"seats": 48,
-			"equipment": ["Data-projektor", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "3d288de3-e2dd-49e1-bbed-e62178e60a0e",
 			"entranceLat": 57.687766,
@@ -415,7 +437,12 @@
 			"lat": 57.687779,
 			"lng": 11.979102,
 			"seats": 32,
-			"equipment": ["Data-projektor", "Gradäng", "Ljudanläggning", "Whiteboard hissbara"],
+			"equipment": [
+				"Data-projektor",
+				"Gradäng",
+				"Ljudanläggning",
+				"Whiteboard hissbara"
+			],
 			"dropIn": false,
 			"buildingId": "3d288de3-e2dd-49e1-bbed-e62178e60a0e",
 			"entranceLat": 57.687766,
@@ -434,7 +461,12 @@
 			"lat": 57.687879,
 			"lng": 11.978822,
 			"seats": 32,
-			"equipment": ["Data-projektor", "Gradäng", "Ljudanläggning", "Whiteboard hissbara"],
+			"equipment": [
+				"Data-projektor",
+				"Gradäng",
+				"Ljudanläggning",
+				"Whiteboard hissbara"
+			],
 			"dropIn": false,
 			"buildingId": "3d288de3-e2dd-49e1-bbed-e62178e60a0e",
 			"entranceLat": 57.687766,
@@ -453,7 +485,12 @@
 			"lat": 57.687961,
 			"lng": 11.978733,
 			"seats": 32,
-			"equipment": ["Data-projektor", "Gradäng", "Ljudanläggning", "Whiteboard hissbara"],
+			"equipment": [
+				"Data-projektor",
+				"Gradäng",
+				"Ljudanläggning",
+				"Whiteboard hissbara"
+			],
 			"dropIn": false,
 			"buildingId": "3d288de3-e2dd-49e1-bbed-e62178e60a0e",
 			"entranceLat": 57.687766,
@@ -491,7 +528,12 @@
 			"lat": 57.687775,
 			"lng": 11.978891,
 			"seats": 32,
-			"equipment": ["Data-projektor", "Gradäng", "Whiteboard hissbara", "Windows"],
+			"equipment": [
+				"Data-projektor",
+				"Gradäng",
+				"Whiteboard hissbara",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "3d288de3-e2dd-49e1-bbed-e62178e60a0e",
 			"entranceLat": 57.687766,
@@ -510,7 +552,12 @@
 			"lat": 57.687879,
 			"lng": 11.978807,
 			"seats": 32,
-			"equipment": ["Data-projektor", "Gradäng", "Whiteboard hissbara", "Windows"],
+			"equipment": [
+				"Data-projektor",
+				"Gradäng",
+				"Whiteboard hissbara",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "3d288de3-e2dd-49e1-bbed-e62178e60a0e",
 			"entranceLat": 57.687766,
@@ -529,7 +576,12 @@
 			"lat": 57.687979,
 			"lng": 11.978727,
 			"seats": 32,
-			"equipment": ["Data-projektor", "Gradäng", "Whiteboard hissbara", "Windows"],
+			"equipment": [
+				"Data-projektor",
+				"Gradäng",
+				"Whiteboard hissbara",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "3d288de3-e2dd-49e1-bbed-e62178e60a0e",
 			"entranceLat": 57.687766,
@@ -593,7 +645,9 @@
 			"lat": 57.690065,
 			"lng": 11.976404,
 			"seats": 40,
-			"equipment": ["Linux"],
+			"equipment": [
+				"Linux"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.690385,
@@ -612,7 +666,9 @@
 			"lat": 57.691049,
 			"lng": 11.975181,
 			"seats": 40,
-			"equipment": ["Linux"],
+			"equipment": [
+				"Linux"
+			],
 			"dropIn": false,
 			"buildingId": "82ef9124-e34c-477d-8eed-64c27399ccaa",
 			"entranceLat": 57.690818,
@@ -631,7 +687,9 @@
 			"lat": 57.691128,
 			"lng": 11.975021,
 			"seats": 40,
-			"equipment": ["Linux"],
+			"equipment": [
+				"Linux"
+			],
 			"dropIn": false,
 			"buildingId": "82ef9124-e34c-477d-8eed-64c27399ccaa",
 			"entranceLat": 57.690818,
@@ -675,7 +733,10 @@
 			"lat": 57.690313,
 			"lng": 11.975833,
 			"seats": 30,
-			"equipment": ["Ljudanläggning", "Whiteboard"],
+			"equipment": [
+				"Ljudanläggning",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.690385,
@@ -694,7 +755,11 @@
 			"lat": 57.690186,
 			"lng": 11.975792,
 			"seats": 44,
-			"equipment": ["Data-projektor", "Ljudanläggning", "Whiteboard"],
+			"equipment": [
+				"Data-projektor",
+				"Ljudanläggning",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.690385,
@@ -713,7 +778,12 @@
 			"lat": 57.690186,
 			"lng": 11.975792,
 			"seats": 30,
-			"equipment": ["Data-projektor", "digital skärm", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"digital skärm",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.690385,
@@ -732,7 +802,12 @@
 			"lat": 57.690186,
 			"lng": 11.975792,
 			"seats": 48,
-			"equipment": ["Data-projektor", "digital skärm", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"digital skärm",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.690385,
@@ -751,7 +826,12 @@
 			"lat": 57.690186,
 			"lng": 11.975792,
 			"seats": 30,
-			"equipment": ["Data-projektor", "digital skärm", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"digital skärm",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.690385,
@@ -770,7 +850,12 @@
 			"lat": 57.690186,
 			"lng": 11.975792,
 			"seats": 30,
-			"equipment": ["Data-projektor", "digital skärm", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"digital skärm",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.690385,
@@ -789,7 +874,12 @@
 			"lat": 57.690186,
 			"lng": 11.975792,
 			"seats": 30,
-			"equipment": ["Data-projektor", "digital skärm", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"digital skärm",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.690385,
@@ -808,7 +898,11 @@
 			"lat": 57.690186,
 			"lng": 11.975792,
 			"seats": 44,
-			"equipment": ["Data-projektor", "Krittavlor", "Krittavlor hissbara"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor",
+				"Krittavlor hissbara"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.690385,
@@ -827,7 +921,12 @@
 			"lat": 57.690186,
 			"lng": 11.975792,
 			"seats": 30,
-			"equipment": ["Data-projektor", "digital skärm", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"digital skärm",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.690385,
@@ -1116,7 +1215,10 @@
 			"lat": 57.688702,
 			"lng": 11.979511,
 			"seats": 44,
-			"equipment": ["Whiteboard", "Windows"],
+			"equipment": [
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "db3d1430-8f43-11f1-b4ca-055aa63bfcba",
 			"entranceLat": 57.688784,
@@ -1135,7 +1237,11 @@
 			"lat": 57.688684,
 			"lng": 11.979523,
 			"seats": 44,
-			"equipment": ["Kortläsare", "Whiteboard", "Windows"],
+			"equipment": [
+				"Kortläsare",
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "db3d1430-8f43-11f1-b4ca-055aa63bfcba",
 			"entranceLat": 57.688784,
@@ -1254,7 +1360,10 @@
 			"lat": 57.686242,
 			"lng": 11.977731,
 			"seats": 20,
-			"equipment": ["digital skärm", "Ljudanläggning"],
+			"equipment": [
+				"digital skärm",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "2dafbcd7-855b-4fb7-b291-320cf270a15b",
 			"entranceLat": 57.686313,
@@ -1273,7 +1382,9 @@
 			"lat": 57.687273,
 			"lng": 11.978694,
 			"seats": 30,
-			"equipment": ["Linux"],
+			"equipment": [
+				"Linux"
+			],
 			"dropIn": false,
 			"buildingId": "60c67c4b-e8e4-4c86-a428-d8cc44e274de",
 			"entranceLat": 57.687392,
@@ -1344,7 +1455,10 @@
 			"lat": 57.691238,
 			"lng": 11.977476,
 			"seats": 12,
-			"equipment": ["Whiteboard", "Windows"],
+			"equipment": [
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "d0ba4884-78cb-4bee-b7d9-a928960fad76",
 			"entranceLat": 57.690742,
@@ -1363,7 +1477,10 @@
 			"lat": 57.691206,
 			"lng": 11.97736,
 			"seats": 10,
-			"equipment": ["Whiteboard", "Windows"],
+			"equipment": [
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "d0ba4884-78cb-4bee-b7d9-a928960fad76",
 			"entranceLat": 57.690742,
@@ -1382,7 +1499,10 @@
 			"lat": 57.691186,
 			"lng": 11.977295,
 			"seats": 8,
-			"equipment": ["Whiteboard", "Windows"],
+			"equipment": [
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "d0ba4884-78cb-4bee-b7d9-a928960fad76",
 			"entranceLat": 57.690742,
@@ -1420,7 +1540,10 @@
 			"lat": 57.690827,
 			"lng": 11.977096,
 			"seats": 36,
-			"equipment": ["Whiteboard", "Windows"],
+			"equipment": [
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "d0ba4884-78cb-4bee-b7d9-a928960fad76",
 			"entranceLat": 57.690742,
@@ -1439,7 +1562,10 @@
 			"lat": 57.690748,
 			"lng": 11.977139,
 			"seats": 8,
-			"equipment": ["Whiteboard", "Windows"],
+			"equipment": [
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "d0ba4884-78cb-4bee-b7d9-a928960fad76",
 			"entranceLat": 57.690742,
@@ -1458,7 +1584,10 @@
 			"lat": 57.690831,
 			"lng": 11.976912,
 			"seats": 12,
-			"equipment": ["Whiteboard", "Windows"],
+			"equipment": [
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "d0ba4884-78cb-4bee-b7d9-a928960fad76",
 			"entranceLat": 57.690742,
@@ -1503,7 +1632,12 @@
 			"lat": 57.690884,
 			"lng": 11.977582,
 			"seats": 48,
-			"equipment": ["Data-projektor", "Gradäng", "Whiteboard hissbara", "Windows"],
+			"equipment": [
+				"Data-projektor",
+				"Gradäng",
+				"Whiteboard hissbara",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "d0ba4884-78cb-4bee-b7d9-a928960fad76",
 			"entranceLat": 57.690742,
@@ -1522,7 +1656,12 @@
 			"lat": 57.690947,
 			"lng": 11.977823,
 			"seats": 48,
-			"equipment": ["Data-projektor", "Gradäng", "Whiteboard hissbara", "Windows"],
+			"equipment": [
+				"Data-projektor",
+				"Gradäng",
+				"Whiteboard hissbara",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "d0ba4884-78cb-4bee-b7d9-a928960fad76",
 			"entranceLat": 57.690742,
@@ -1567,7 +1706,12 @@
 			"lat": 57.690916,
 			"lng": 11.977414,
 			"seats": 20,
-			"equipment": ["Data-projektor", "Ljudanläggning", "Overhead", "Whiteboard"],
+			"equipment": [
+				"Data-projektor",
+				"Ljudanläggning",
+				"Overhead",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "d0ba4884-78cb-4bee-b7d9-a928960fad76",
 			"entranceLat": 57.690742,
@@ -1586,7 +1730,12 @@
 			"lat": 57.690916,
 			"lng": 11.977414,
 			"seats": 20,
-			"equipment": ["Data-projektor", "Ljudanläggning", "Overhead", "Whiteboard"],
+			"equipment": [
+				"Data-projektor",
+				"Ljudanläggning",
+				"Overhead",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "d0ba4884-78cb-4bee-b7d9-a928960fad76",
 			"entranceLat": 57.690742,
@@ -1643,7 +1792,12 @@
 			"lat": 57.690916,
 			"lng": 11.977414,
 			"seats": 30,
-			"equipment": ["Data-projektor", "Krittavlor", "Ljudanläggning", "Overhead"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor",
+				"Ljudanläggning",
+				"Overhead"
+			],
 			"dropIn": false,
 			"buildingId": "d0ba4884-78cb-4bee-b7d9-a928960fad76",
 			"entranceLat": 57.690742,
@@ -1786,7 +1940,10 @@
 			"lat": 57.686242,
 			"lng": 11.977731,
 			"seats": 20,
-			"equipment": ["digital skärm", "Ljudanläggning"],
+			"equipment": [
+				"digital skärm",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "2dafbcd7-855b-4fb7-b291-320cf270a15b",
 			"entranceLat": 57.686313,
@@ -2013,7 +2170,11 @@
 			"lat": 57.689457,
 			"lng": 11.978193,
 			"seats": 60,
-			"equipment": ["Data-projektor", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "99e2b33c-577d-4083-a17e-f787878b3154",
 			"entranceLat": 57.689378,
@@ -2056,7 +2217,10 @@
 			"lat": 57.689417,
 			"lng": 11.978174,
 			"seats": 25,
-			"equipment": ["Data-projektor", "Krittavlor hissbara"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor hissbara"
+			],
 			"dropIn": false,
 			"buildingId": "99e2b33c-577d-4083-a17e-f787878b3154",
 			"entranceLat": 57.689378,
@@ -2075,7 +2239,10 @@
 			"lat": 57.689436,
 			"lng": 11.978199,
 			"seats": 25,
-			"equipment": ["Data-projektor", "Krittavlor hissbara"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor hissbara"
+			],
 			"dropIn": false,
 			"buildingId": "99e2b33c-577d-4083-a17e-f787878b3154",
 			"entranceLat": 57.689378,
@@ -2094,7 +2261,13 @@
 			"lat": 57.689003,
 			"lng": 11.9774,
 			"seats": 46,
-			"equipment": ["digital skärm", "Ljudanläggning", "ritplattor", "Whiteboard", "Windows"],
+			"equipment": [
+				"digital skärm",
+				"Ljudanläggning",
+				"ritplattor",
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "8e8eb422-3a8f-44d9-9fbe-011ec479ab0c",
 			"entranceLat": 57.689147,
@@ -2113,7 +2286,13 @@
 			"lat": 57.688826,
 			"lng": 11.978191,
 			"seats": 50,
-			"equipment": ["digital skärm", "Distansföreläsning", "Linux", "Ljudanläggning", "Windows"],
+			"equipment": [
+				"digital skärm",
+				"Distansföreläsning",
+				"Linux",
+				"Ljudanläggning",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "99e2b33c-577d-4083-a17e-f787878b3154",
 			"entranceLat": 57.688604,
@@ -2132,7 +2311,11 @@
 			"lat": 57.688887,
 			"lng": 11.977968,
 			"seats": 80,
-			"equipment": ["skrivare", "Whiteboard", "Windows"],
+			"equipment": [
+				"skrivare",
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "99e2b33c-577d-4083-a17e-f787878b3154",
 			"entranceLat": 57.688604,
@@ -2151,7 +2334,12 @@
 			"lat": 57.688887,
 			"lng": 11.977968,
 			"seats": 18,
-			"equipment": ["Data-projektor", "skrivare", "Whiteboard", "Windows"],
+			"equipment": [
+				"Data-projektor",
+				"skrivare",
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "99e2b33c-577d-4083-a17e-f787878b3154",
 			"entranceLat": 57.688604,
@@ -2170,7 +2358,12 @@
 			"lat": 57.688887,
 			"lng": 11.977968,
 			"seats": 24,
-			"equipment": ["Data-projektor", "skrivare", "Whiteboard", "Windows"],
+			"equipment": [
+				"Data-projektor",
+				"skrivare",
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "99e2b33c-577d-4083-a17e-f787878b3154",
 			"entranceLat": 57.688604,
@@ -2189,7 +2382,10 @@
 			"lat": 57.690167,
 			"lng": 11.976262,
 			"seats": 32,
-			"equipment": ["Data-projektor", "Krittavlor"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.689956,
@@ -2208,7 +2404,11 @@
 			"lat": 57.690187,
 			"lng": 11.976247,
 			"seats": 14,
-			"equipment": ["Data-projektor", "Whiteboard", "Windows"],
+			"equipment": [
+				"Data-projektor",
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.689956,
@@ -2227,7 +2427,10 @@
 			"lat": 57.69013322278953,
 			"lng": 11.976128326234456,
 			"seats": 32,
-			"equipment": ["Data-projektor", "Krittavlor"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.689956,
@@ -2246,7 +2449,11 @@
 			"lat": 57.690227,
 			"lng": 11.976225,
 			"seats": 10,
-			"equipment": ["Data-projektor", "Linux", "Whiteboard"],
+			"equipment": [
+				"Data-projektor",
+				"Linux",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.689956,
@@ -2265,7 +2472,11 @@
 			"lat": 57.690259,
 			"lng": 11.976174,
 			"seats": 16,
-			"equipment": ["Data-projektor", "Krittavlor", "Linux"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor",
+				"Linux"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.689956,
@@ -2284,7 +2495,10 @@
 			"lat": 57.69027,
 			"lng": 11.976186,
 			"seats": 40,
-			"equipment": ["Data-projektor", "Krittavlor"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.689956,
@@ -2303,7 +2517,10 @@
 			"lat": 57.68997,
 			"lng": 11.976138,
 			"seats": 40,
-			"equipment": ["Data-projektor", "Krittavlor"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.689956,
@@ -2322,7 +2539,10 @@
 			"lat": 57.69012394099374,
 			"lng": 11.976290262310679,
 			"seats": 16,
-			"equipment": ["Data-projektor", "Krittavlor"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.689956,
@@ -2341,7 +2561,10 @@
 			"lat": 57.690251,
 			"lng": 11.976196,
 			"seats": 40,
-			"equipment": ["Data-projektor", "Krittavlor"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.689956,
@@ -2360,7 +2583,11 @@
 			"lat": 57.690224,
 			"lng": 11.977594,
 			"seats": 40,
-			"equipment": ["Data-projektor", "Kamera", "Krittavlor"],
+			"equipment": [
+				"Data-projektor",
+				"Kamera",
+				"Krittavlor"
+			],
 			"dropIn": false,
 			"buildingId": "941a9412-c241-46db-a028-1e4e9d307ee7",
 			"entranceLat": 57.69016,
@@ -2398,7 +2625,11 @@
 			"lat": 57.689274,
 			"lng": 11.974096,
 			"seats": 259,
-			"equipment": ["Clevertouch", "Distansföreläsning", "Krittavlor hissbara"],
+			"equipment": [
+				"Clevertouch",
+				"Distansföreläsning",
+				"Krittavlor hissbara"
+			],
 			"dropIn": false,
 			"buildingId": "d80cb5a0-8f60-11f1-988c-2fb0ac151bfe",
 			"entranceLat": 57.689315,
@@ -2442,7 +2673,9 @@
 			"lat": 57.687565,
 			"lng": 11.976341,
 			"seats": 20,
-			"equipment": ["digital skärm"],
+			"equipment": [
+				"digital skärm"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2461,7 +2694,10 @@
 			"lat": 57.687667,
 			"lng": 11.976276,
 			"seats": 25,
-			"equipment": ["Digital skärm \"75\"", "Whiteboard"],
+			"equipment": [
+				"Digital skärm \"75\"",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2480,7 +2716,11 @@
 			"lat": 57.687824,
 			"lng": 11.97614,
 			"seats": 25,
-			"equipment": ["Digital skärm \"75\"", "Whiteboard", "Windows"],
+			"equipment": [
+				"Digital skärm \"75\"",
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2499,7 +2739,10 @@
 			"lat": 57.687914,
 			"lng": 11.97605,
 			"seats": 32,
-			"equipment": ["Data-projektor", "Whiteboard"],
+			"equipment": [
+				"Data-projektor",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2518,7 +2761,10 @@
 			"lat": 57.687907,
 			"lng": 11.976442,
 			"seats": 44,
-			"equipment": ["Data-projektor x3", "Whiteboard"],
+			"equipment": [
+				"Data-projektor x3",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2537,7 +2783,9 @@
 			"lat": 57.68772,
 			"lng": 11.976596,
 			"seats": 62,
-			"equipment": ["Overhead"],
+			"equipment": [
+				"Overhead"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2556,7 +2804,12 @@
 			"lat": 57.68732,
 			"lng": 11.977388,
 			"seats": 64,
-			"equipment": ["Data-projektor", "Kortläsare", "Whiteboard", "Windows"],
+			"equipment": [
+				"Data-projektor",
+				"Kortläsare",
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2575,7 +2828,12 @@
 			"lat": 57.687359,
 			"lng": 11.977356,
 			"seats": 64,
-			"equipment": ["Data-projektor", "Kortläsare", "Whiteboard", "Windows"],
+			"equipment": [
+				"Data-projektor",
+				"Kortläsare",
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2594,7 +2852,12 @@
 			"lat": 57.687377,
 			"lng": 11.977303,
 			"seats": 64,
-			"equipment": ["Data-projektor", "Kortläsare", "Whiteboard", "Windows"],
+			"equipment": [
+				"Data-projektor",
+				"Kortläsare",
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2613,7 +2876,12 @@
 			"lat": 57.687398,
 			"lng": 11.977257,
 			"seats": 64,
-			"equipment": ["Data-projektor", "Kortläsare", "Whiteboard", "Windows"],
+			"equipment": [
+				"Data-projektor",
+				"Kortläsare",
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2708,7 +2976,12 @@
 			"lat": 57.68719823406566,
 			"lng": 11.97694261110418,
 			"seats": 72,
-			"equipment": ["Data-projektor", "Gradäng", "Kortläsare", "Krittavlor hissbara"],
+			"equipment": [
+				"Data-projektor",
+				"Gradäng",
+				"Kortläsare",
+				"Krittavlor hissbara"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2752,7 +3025,12 @@
 			"lat": 57.68730283164418,
 			"lng": 11.97736230339822,
 			"seats": 72,
-			"equipment": ["Data-projektor", "Gradäng", "Kortläsare", "Krittavlor hissbara"],
+			"equipment": [
+				"Data-projektor",
+				"Gradäng",
+				"Kortläsare",
+				"Krittavlor hissbara"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2796,7 +3074,11 @@
 			"lat": 57.687223,
 			"lng": 11.97689,
 			"seats": 56,
-			"equipment": ["Data-projektor", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2815,7 +3097,11 @@
 			"lat": 57.687239,
 			"lng": 11.977143,
 			"seats": 38,
-			"equipment": ["Data-projektor", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2834,7 +3120,11 @@
 			"lat": 57.687163,
 			"lng": 11.976645,
 			"seats": 48,
-			"equipment": ["Data-projektor", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2853,7 +3143,11 @@
 			"lat": 57.68784,
 			"lng": 11.976274,
 			"seats": 20,
-			"equipment": ["Data-projektor", "Ljudanläggning", "Whiteboard"],
+			"equipment": [
+				"Data-projektor",
+				"Ljudanläggning",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2872,7 +3166,11 @@
 			"lat": 57.687665,
 			"lng": 11.976455,
 			"seats": 36,
-			"equipment": ["Data-projektor", "Ljudanläggning", "Whiteboard"],
+			"equipment": [
+				"Data-projektor",
+				"Ljudanläggning",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2891,7 +3189,11 @@
 			"lat": 57.687203,
 			"lng": 11.976892,
 			"seats": 56,
-			"equipment": ["Data-projektor", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2910,7 +3212,11 @@
 			"lat": 57.687286,
 			"lng": 11.977158,
 			"seats": 38,
-			"equipment": ["Data-projektor", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2929,7 +3235,11 @@
 			"lat": 57.687179,
 			"lng": 11.976657,
 			"seats": 48,
-			"equipment": ["Data-projektor", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2948,7 +3258,10 @@
 			"lat": 57.687183,
 			"lng": 11.976904,
 			"seats": 56,
-			"equipment": ["Data-projektor", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2967,7 +3280,11 @@
 			"lat": 57.687242,
 			"lng": 11.977119,
 			"seats": 38,
-			"equipment": ["Data-projektor", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -2986,7 +3303,11 @@
 			"lat": 57.687193,
 			"lng": 11.976709,
 			"seats": 48,
-			"equipment": ["Data-projektor", "Krittavlor hissbara", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor hissbara",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -3005,7 +3326,11 @@
 			"lat": 57.687788,
 			"lng": 11.976561,
 			"seats": 60,
-			"equipment": ["Data-projektor", "Ljudanläggning", "Whiteboard"],
+			"equipment": [
+				"Data-projektor",
+				"Ljudanläggning",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -3024,7 +3349,12 @@
 			"lat": 57.687208,
 			"lng": 11.976646,
 			"seats": 60,
-			"equipment": ["Data-projektor", "Kortläsare", "Ljudanläggning", "Whiteboard"],
+			"equipment": [
+				"Data-projektor",
+				"Kortläsare",
+				"Ljudanläggning",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -3119,7 +3449,11 @@
 			"lat": 57.687234,
 			"lng": 11.976555,
 			"seats": 16,
-			"equipment": ["Data-projektor", "Ljudanläggning", "Whiteboard"],
+			"equipment": [
+				"Data-projektor",
+				"Ljudanläggning",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
@@ -3205,7 +3539,12 @@
 			"lat": 57.686099,
 			"lng": 11.977601,
 			"seats": 36,
-			"equipment": ["Data-projektor", "Distansföreläsning", "Krittavlor", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Distansföreläsning",
+				"Krittavlor",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "2dafbcd7-855b-4fb7-b291-320cf270a15b",
 			"entranceLat": 57.686313,
@@ -3224,7 +3563,12 @@
 			"lat": 57.686037,
 			"lng": 11.977638,
 			"seats": 28,
-			"equipment": ["Data-projektor", "Distansföreläsning", "Krittavlor", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Distansföreläsning",
+				"Krittavlor",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "2dafbcd7-855b-4fb7-b291-320cf270a15b",
 			"entranceLat": 57.686313,
@@ -3718,7 +4062,10 @@
 			"lat": 57.689462,
 			"lng": 11.978182,
 			"seats": 49,
-			"equipment": ["Data-projektor", "Whiteboard"],
+			"equipment": [
+				"Data-projektor",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "99e2b33c-577d-4083-a17e-f787878b3154",
 			"entranceLat": 57.689378,
@@ -3737,7 +4084,10 @@
 			"lat": 57.689441,
 			"lng": 11.97821,
 			"seats": 44,
-			"equipment": ["Data-projektor", "Whiteboard"],
+			"equipment": [
+				"Data-projektor",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "99e2b33c-577d-4083-a17e-f787878b3154",
 			"entranceLat": 57.689378,
@@ -4020,7 +4370,10 @@
 			"lat": 57.693018,
 			"lng": 11.975641,
 			"seats": 60,
-			"equipment": ["Whiteboard", "Windows"],
+			"equipment": [
+				"Whiteboard",
+				"Windows"
+			],
 			"dropIn": false,
 			"buildingId": "3499346d-dd03-4d4e-b7fe-e09eff66909a",
 			"entranceLat": 57.693013,
@@ -4058,7 +4411,11 @@
 			"lat": 57.692976,
 			"lng": 11.975011,
 			"seats": 30,
-			"equipment": ["Data-projektor", "Krittavlor", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "3499346d-dd03-4d4e-b7fe-e09eff66909a",
 			"entranceLat": 57.693014,
@@ -4077,7 +4434,11 @@
 			"lat": 57.693103,
 			"lng": 11.974952,
 			"seats": 30,
-			"equipment": ["Data-projektor", "Krittavlor", "Ljudanläggning"],
+			"equipment": [
+				"Data-projektor",
+				"Krittavlor",
+				"Ljudanläggning"
+			],
 			"dropIn": false,
 			"buildingId": "3499346d-dd03-4d4e-b7fe-e09eff66909a",
 			"entranceLat": 57.693014,
@@ -4096,7 +4457,10 @@
 			"lat": 57.693318,
 			"lng": 11.975445,
 			"seats": 30,
-			"equipment": ["Data-projektor", "Whiteboard"],
+			"equipment": [
+				"Data-projektor",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "3499346d-dd03-4d4e-b7fe-e09eff66909a",
 			"entranceLat": 57.693013,
@@ -4115,7 +4479,11 @@
 			"lat": 57.692991,
 			"lng": 11.97563,
 			"seats": 50,
-			"equipment": ["Data-projektor", "Ljudanläggning", "Whiteboard"],
+			"equipment": [
+				"Data-projektor",
+				"Ljudanläggning",
+				"Whiteboard"
+			],
 			"dropIn": false,
 			"buildingId": "3499346d-dd03-4d4e-b7fe-e09eff66909a",
 			"entranceLat": 57.693013,
