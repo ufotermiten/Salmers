@@ -1,7 +1,10 @@
 // Builds src/lib/data/rooms.json from TimeEdit (room list) and maps.chalmers.se
 // (coordinates, seats, equipment, drop-in study spaces, buildings, entrances and
 // floors for walking routes). Run: npm run build:rooms
-import { writeFile, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import { isDeepStrictEqual } from 'node:util';
+import * as prettier from 'prettier';
 
 const TE = 'https://cloud.timeedit.net/chalmers/web/public';
 const MAPS = 'https://maps.chalmers.se/v2';
@@ -337,14 +340,22 @@ const rooms = borrowSiblingPositions(
 	await addWalkingFields([...(await timeEditRooms()), ...(await studySpaces())])
 ).sort((a, b) => a.name.localeCompare(b.name, 'sv', { numeric: true }));
 
+// Keep the old timestamp when no room changed, so the weekly refresh job finds no diff and opens
+// no PR. Format with the repo's prettier config so the output passes `prettier --check`.
+const previous = await readFile(OUT, 'utf8')
+	.then(JSON.parse)
+	.catch(() => null);
+const unchanged = previous && isDeepStrictEqual(previous.rooms, rooms);
+const generatedAt = unchanged ? previous.generatedAt : new Date().toISOString();
+const json = await prettier.format(JSON.stringify({ generatedAt, rooms }), {
+	...(await prettier.resolveConfig(fileURLToPath(OUT))),
+	filepath: fileURLToPath(OUT)
+});
 await mkdir(new URL('.', OUT), { recursive: true });
-await writeFile(
-	OUT,
-	JSON.stringify({ generatedAt: new Date().toISOString(), rooms }, null, '\t') + '\n'
-);
+await writeFile(OUT, json);
 
 const counts = Object.groupBy(rooms, (r) => r.type);
 console.log(
-	`Wrote ${rooms.length} rooms:`,
+	`Wrote ${rooms.length} rooms${unchanged ? ' (unchanged)' : ''}:`,
 	Object.fromEntries(Object.entries(counts).map(([k, v]) => [k, v.length]))
 );
