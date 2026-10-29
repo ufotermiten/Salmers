@@ -31,3 +31,6 @@ vite.config.ts.timestamp-*
 # Android signing keys (kept outside the repo; CI gets them from secrets)
 *.jks
 *.keystore
+
+# Claude Code project notes (local only)
+CLAUDE.md
