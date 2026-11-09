@@ -1,5 +1,5 @@
 {
-	"generatedAt": "2026-10-20T14:21:23.400Z",
+	"generatedAt": "2026-11-09T12:19:11.792Z",
 	"rooms": [
 		{
 			"id": "18849.4",
@@ -2948,7 +2948,7 @@
 			"lat": 57.687183,
 			"lng": 11.976904,
 			"seats": 56,
-			"equipment": ["Data-projektor", "Ljudanläggning"],
+			"equipment": ["Data-projektor", "Krittavlor hissbara", "Ljudanläggning"],
 			"dropIn": false,
 			"buildingId": "90d03054-7de3-41e6-8e70-2671b63f8084",
 			"entranceLat": 57.687468,
